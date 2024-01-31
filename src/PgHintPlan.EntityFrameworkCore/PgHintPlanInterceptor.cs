@@ -1,5 +1,6 @@
 using System;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -46,24 +47,68 @@ namespace PgHintPlan.EntityFrameworkCore
                     var hint = line.Split("::")[1];
 
                     var hintType = hint.Split("(")[0];
+                    var hintParams = hint.Split("(")[1].Replace(")", "").Split(" ");
 
                     switch (hintType)
                     {
                         case "Set":
-                        case "Rows":
-                        case "Parallel":
+
+                            break;
+                       
+                        case ScanMethods.IndexScan:
+                        case ScanMethods.IndexOnlyScan:
+                        case ScanMethods.BitmapScan:
+
+                            var onlytable = hintParams.FirstOrDefault();
+                            var indexes = hintParams.Skip(1);
+                           
+                            // get table alias
+                            var tabAlias = Regex.Match(command.CommandText, $@"""{onlytable}""\sAS\s(\w+)").Groups[1].Value;
+
+                            var newSB =new StringBuilder();
+                            newSB.Append(hintType);
+                            newSB.Append("(");
+                            newSB.Append(tabAlias);
+
+                            foreach (var index in indexes)
+                            {
+                                newSB.Append(" ");
+                                newSB.Append(tabAlias);
+                                newSB.Append(index.TrimStart(onlytable.ToCharArray()));
+                            }   
+
+                            newSB.Append(")");
+                            hint = newSB.ToString();
+                            break;
+
+                        case ScanMethods.IndexScanRegexp:
+                        case ScanMethods.IndexOnlyScanRegexp:
+                        case ScanMethods.BitmapScanRegexp:
+
+                            var firsttable = hintParams.FirstOrDefault();
+                            var tAlias = Regex.Match(command.CommandText, $@"""{firsttable}""\sAS\s(\w+)").Groups[1].Value;
+                            hint = hint.Replace(firsttable, tAlias);
 
                             break;
 
-                        case JoinMethods.HashJoin:
-                        case JoinMethods.NoHashJoin:
-                        default:
+                        case MiscMethods.Rows:
 
-                            var tables = hint.Split("(")[1].Replace(")", "").Split(" ");
-                            foreach (var table in tables)
+                            foreach (var table in hintParams.Take(..^1))
                             {
                                 // get table alias
-                                var tableAlias = Regex.Match(command.CommandText, $@"""{table}""\sAS\s(\w)").Groups[1].Value;
+                                var tableAlias = Regex.Match(command.CommandText, $@"""{table}""\sAS\s(\w+)").Groups[1].Value;
+
+                                hint = hint.Replace(table, tableAlias);
+                            }
+
+                            break;
+
+                        default:
+
+                            foreach (var table in hintParams)
+                            {
+                                // get table alias
+                                var tableAlias = Regex.Match(command.CommandText, $@"""{table}""\sAS\s(\w+)").Groups[1].Value;
 
                                 hint = hint.Replace(table, tableAlias);
                             }
