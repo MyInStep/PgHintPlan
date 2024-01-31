@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PgHintPlan
 {
@@ -10,7 +6,7 @@ namespace PgHintPlan
     {
         internal static string GenerateTag(string tag)
         {
-            return $"PgHintPlan::{tag}";
+            return $"{Constants.TagName}{Constants.TagSeparator}{tag}";
         }
 
         internal static string GenerateTag(string tag, params string[] args)

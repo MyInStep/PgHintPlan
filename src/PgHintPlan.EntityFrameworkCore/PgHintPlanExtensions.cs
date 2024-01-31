@@ -1,20 +1,31 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-using PgHintPlan;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace PgHintPlan.EntityFrameworkCore
 {
     public static class PgHintPlanExtensions
     {
-        public static IQueryable<T> EnableHasHagg<T>(this IQueryable<T> query, bool setter = true)
+        public static ModelBuilder UsePgHintPlan(this ModelBuilder modelBuilder)
         {
-            return query.TagWith(TagHelper.GenerateTag(PlannerProperties.EnableHasHagg, setter));
+            modelBuilder.HasPostgresExtension("pg_hint_plan");
+            return modelBuilder;
+        }
+
+        public static DbContextOptionsBuilder UsePgHintPlan(this DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new PgHintPlanInterceptor());
+            return optionsBuilder;
+        }
+
+        public static IQueryable<T> EnableHashAgg<T>(this IQueryable<T> query, bool setter = true)
+        {
+            return query.TagWith(TagHelper.GenerateTag(PlannerProperties.EnableHashAgg, setter));
         }
 
         public static IQueryable<T> EnableHashJoin<T>(this IQueryable<T> query, bool setter = true)
@@ -66,8 +77,57 @@ namespace PgHintPlan.EntityFrameworkCore
         {
             return query.TagWith(TagHelper.GenerateTag(PlannerProperties.EnableSort, setter));
         }
-        
 
+        public static IQueryable<T> HashJoin<T>(this IQueryable<T> query, params string[] args)
+             where T : class
+        {
+            return query.TagWith(TagHelper.GenerateTag(JoinMethods.HashJoin, args));
+        }
 
+        public static IQueryable<T> HashJoin<T>(this IQueryable<T> query, params IEntityType[] args)
+             where T : class
+        {
+            return query.HashJoin(args.Select(a => a.GetTableName()).ToArray());
+        }
+
+        public static IQueryable<T> HashJoin<T>(this IQueryable<T> query, params object[] args)
+             where T : class
+        {
+            var stringArgs = new List<string>();
+            foreach (object o in args)
+            {
+                var entityTypeProperty = o.GetType().GetProperty("EntityType");
+                IEntityType entityType = (IEntityType)entityTypeProperty.GetValue(o);
+
+                stringArgs.Add(entityType.GetTableName());
+            }
+            return query.HashJoin(stringArgs.ToArray());
+        }
+
+        public static IQueryable<T> NoHashJoin<T>(this IQueryable<T> query, params string[] args)
+             where T : class
+        {
+            return query.TagWith(TagHelper.GenerateTag(JoinMethods.NoHashJoin, args));
+        }
+
+        public static IQueryable<T> NoHashJoin<T>(this IQueryable<T> query, params IEntityType[] args)
+             where T : class
+        {
+            return query.NoHashJoin(args.Select(a => a.GetTableName()).ToArray());
+        }
+
+        public static IQueryable<T> NoHashJoin<T>(this IQueryable<T> query, params object[] args)
+             where T : class
+        {
+            var stringArgs = new List<string>();
+            foreach (object o in args)
+            {
+                var entityTypeProperty = o.GetType().GetProperty("EntityType");
+                IEntityType entityType = (IEntityType)entityTypeProperty.GetValue(o);
+
+                stringArgs.Add(entityType.GetTableName());
+            }
+            return query.NoHashJoin(stringArgs.ToArray());
+        }
     }
 }
