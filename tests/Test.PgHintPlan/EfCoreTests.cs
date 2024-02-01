@@ -147,6 +147,32 @@ HashJoin(p i)
         }
 
         [Fact]
+        public void InterceptorNestLoopTest()
+        {
+            var ctx = new ItemContext();
+
+            var cmd = ctx.Products
+                .Join(ctx.Items,
+                (p) => p.Id,
+                (i) => i.Id,
+                (p, i) => new
+                {
+                    Pid = p.Id,
+                    Id = i.Id
+                })
+                .NestLoop(ctx.Items.EntityType, ctx.Products.EntityType)
+                .NestLoop(ctx.Products.EntityType, ctx.Items.EntityType)
+                .CreateDbCommand();
+
+            PgHintPlanInterceptor.ManipulateCommand(cmd);
+
+            cmd.CommandText.Should().StartWith($@"/*+
+NestLoop(i p)
+NestLoop(p i)
+*/".FixLineEndings());
+        }
+
+        [Fact]
         public void InterceptorNoHashJoinTest()
         {
             var ctx = new ItemContext();

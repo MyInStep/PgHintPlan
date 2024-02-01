@@ -6,6 +6,7 @@
         <RootNamespace>PgHintPlan</RootNamespace>
         <Description>pg_hint_plan support for .NET</Description>
         <PackageTags>pg_hint_plan pg hint plan</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
 	<ItemGroup>
@@ -14,6 +15,7 @@
 
     <ItemGroup>
         <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>

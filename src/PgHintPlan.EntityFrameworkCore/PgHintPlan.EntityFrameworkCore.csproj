@@ -6,7 +6,8 @@
         <RootNamespace>PgHintPlan.EntityFrameworkCore</RootNamespace>
         <Description>pg_hint_plan support for EntityFrameworkCore</Description>
         <PackageTags>pg_hint_plan; pg hint plan; efcore; entity framework;</PackageTags>
-	</PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\PgHintPlan\PgHintPlan.csproj" />
@@ -15,6 +16,7 @@
 
     <ItemGroup>
         <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>
