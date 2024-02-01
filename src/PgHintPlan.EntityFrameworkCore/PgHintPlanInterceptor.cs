@@ -84,6 +84,7 @@ namespace PgHintPlan.EntityFrameworkCore
                         case ScanMethods.IndexScanRegexp:
                         case ScanMethods.IndexOnlyScanRegexp:
                         case ScanMethods.BitmapScanRegexp:
+                        case MiscMethods.Parallel:
 
                             var firsttable = hintParams.FirstOrDefault();
                             var tAlias = Regex.Match(command.CommandText, $@"""{firsttable}""\sAS\s(\w+)").Groups[1].Value;

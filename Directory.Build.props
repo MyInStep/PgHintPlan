@@ -1,13 +1,21 @@
 <Project>
 
+    
     <PropertyGroup>
         <Product>InStep</Product>
         <Authors>InStep Team</Authors>
         <Company>InStep, Inc</Company>
+        <Version>0.0.1</Version>
+        <PackageReleaseNotes>https://github.com/MyInStep/PgHintPlan/releases</PackageReleaseNotes>
         <Copyright>Copyright © 2021-2024 by InStep, Inc. All rights reserved.</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/MyInStep/PgHintPlan</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/MyInStep/PgHintPlan</RepositoryUrl>
         <LangVersion>latest</LangVersion>
+        <IsPackable>true</IsPackable>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Configurations>Debug;Release</Configurations>
+        
         <Nullable>disable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>

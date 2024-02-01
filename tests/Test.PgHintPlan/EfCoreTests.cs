@@ -91,7 +91,7 @@ Set(enable_hashagg off)
                 .EnableIndexOnlyScan()
                 .EnableIndexScan(false)
                 .EnableMaterial()
-                .EnableNestedLoop(false)
+                .EnableNestLoop(false)
                 .EnablePartitionPruning()
                 .EnablePartitionWiseAggregate(false)
                 .EnablePartitionWiseJoin()
@@ -258,6 +258,22 @@ IndexScanRegexp(i /((\d3)(?:\.|-))?(\d3)(?:\.|-)(\d4)/)
             cmd.CommandText.Should().StartWith($@"/*+
 Rows(i p +10)
 Rows(p i *100000000)
+*/");
+        }
+        [Fact]
+        public void ParallelTest()
+        {
+            var ctx = new ItemContext();
+
+            var cmd = ctx.Items
+                .AsQueryable()
+                .Parallel(ctx.Items.EntityType,5,EnforcementStrength.Soft)
+                .CreateDbCommand();
+
+            PgHintPlanInterceptor.ManipulateCommand(cmd);
+
+            cmd.CommandText.Should().StartWith($@"/*+
+Parallel(i 5 soft)
 */");
         }
 
