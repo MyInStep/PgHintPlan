@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 using FluentAssertions;
 
@@ -11,6 +13,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 using PgHintPlan;
 using PgHintPlan.EntityFrameworkCore;
+
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Test_PgHintPlan
 {
@@ -62,7 +66,7 @@ namespace Test_PgHintPlan
 
             cmd.CommandText.Should().StartWith($@"/*+
 Set(enable_hashagg on)
-*/");
+*/".FixLineEndings());
         }
         [Fact]
         public void InterceptorSetFalseTest()
@@ -77,7 +81,7 @@ Set(enable_hashagg on)
 
             cmd.CommandText.Should().StartWith($@"/*+
 Set(enable_hashagg off)
-*/");
+*/".FixLineEndings());
         }
 
         [Fact]
@@ -113,7 +117,7 @@ Set(enable_partitionwise_aggregate off)
 Set(enable_partitionwise_join on)
 Set(enable_seqscan off)
 Set(enable_sort on)
-*/");
+*/".FixLineEndings());
         }
 
         [Fact]
@@ -139,7 +143,7 @@ Set(enable_sort on)
             cmd.CommandText.Should().StartWith($@"/*+
 HashJoin(i p)
 HashJoin(p i)
-*/");
+*/".FixLineEndings());
         }
 
         [Fact]
@@ -163,7 +167,7 @@ HashJoin(p i)
 
             cmd.CommandText.Should().StartWith($@"/*+
 NoHashJoin(i p)
-*/");
+*/".FixLineEndings());
         }
 
         [Fact]
@@ -181,7 +185,7 @@ NoHashJoin(i p)
 
             cmd.CommandText.Should().StartWith($@"/*+
 IndexScan(i i_IX_Items_Id)
-*/");
+*/".FixLineEndings());
         }
         [Fact]
         public void MultipleIndexScanTest()
@@ -198,7 +202,7 @@ IndexScan(i i_IX_Items_Id)
 
             cmd.CommandText.Should().StartWith($@"/*+
 IndexScan(i i_IX_Items_Id i_IX_Items_Id)
-*/");
+*/".FixLineEndings());
         }
         [Fact]
         public void BitmapScanTest()
@@ -215,7 +219,7 @@ IndexScan(i i_IX_Items_Id i_IX_Items_Id)
 
             cmd.CommandText.Should().StartWith($@"/*+
 BitmapScan(i i_IX_Items_Id)
-*/");
+*/".FixLineEndings());
         }
         [Fact]
         public void IndexScanRegexpTest()
@@ -232,7 +236,7 @@ BitmapScan(i i_IX_Items_Id)
 
             cmd.CommandText.Should().StartWith($@"/*+
 IndexScanRegexp(i /((\d3)(?:\.|-))?(\d3)(?:\.|-)(\d4)/)
-*/");
+*/".FixLineEndings());
         }
 
         [Fact]
@@ -258,7 +262,7 @@ IndexScanRegexp(i /((\d3)(?:\.|-))?(\d3)(?:\.|-)(\d4)/)
             cmd.CommandText.Should().StartWith($@"/*+
 Rows(i p +10)
 Rows(p i *100000000)
-*/");
+*/".FixLineEndings());
         }
         [Fact]
         public void ParallelTest()
@@ -274,9 +278,22 @@ Rows(p i *100000000)
 
             cmd.CommandText.Should().StartWith($@"/*+
 Parallel(i 5 soft)
-*/");
+*/".FixLineEndings());
         }
+    }
 
-
+    public static class StringExtensions
+    {
+        public static string FixLineEndings(this string value)
+        {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return value.Replace("\r\n", "\n");
+            }
+            else
+            {
+                return value;
+            }
+        }
     }
 }
