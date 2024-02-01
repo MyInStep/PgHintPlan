@@ -5,7 +5,7 @@
         <Product>InStep</Product>
         <Authors>InStep Team</Authors>
         <Company>InStep, Inc</Company>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <PackageReleaseNotes>https://github.com/MyInStep/PgHintPlan/releases</PackageReleaseNotes>
         <Copyright>Copyright © 2021-2024 by InStep, Inc. All rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/MyInStep/PgHintPlan</PackageProjectUrl>
