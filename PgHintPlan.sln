@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BA4A2117-EB9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0FEBF602-4AFC-4E16-BF96-BA437D1D66DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PgHintPlan", "src\PgHintPlan\PgHintPlan.csproj", "{F674F5A8-0AE8-4B5D-8D01-205291B8D816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PgHintPlan", "src\PgHintPlan\PgHintPlan.csproj", "{F674F5A8-0AE8-4B5D-8D01-205291B8D816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PgHintPlan.EntityFrameworkCore", "src\PgHintPlan.EntityFrameworkCore\PgHintPlan.EntityFrameworkCore.csproj", "{8E539C60-1B96-408B-83B8-C6B100FA6AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PgHintPlan.EntityFrameworkCore", "src\PgHintPlan.EntityFrameworkCore\PgHintPlan.EntityFrameworkCore.csproj", "{8E539C60-1B96-408B-83B8-C6B100FA6AEF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ACF3B13D-F0F8-4403-9FD0-110BDD9429AB}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,7 +20,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.PgHintPlan", "tests\Test.PgHintPlan\Test.PgHintPlan.csproj", "{D846FFC0-DF3F-4CC2-9FBE-5FBFF8E096AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.PgHintPlan", "tests\Test.PgHintPlan\Test.PgHintPlan.csproj", "{D846FFC0-DF3F-4CC2-9FBE-5FBFF8E096AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{891F98DD-81D6-479C-AD5A-11348BC7233D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{09B4272D-CA63-4646-96F5-DDD609B2E71A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +55,7 @@ Global
 		{F674F5A8-0AE8-4B5D-8D01-205291B8D816} = {BA4A2117-EB9D-483A-B780-7E0EC2B213D1}
 		{8E539C60-1B96-408B-83B8-C6B100FA6AEF} = {BA4A2117-EB9D-483A-B780-7E0EC2B213D1}
 		{D846FFC0-DF3F-4CC2-9FBE-5FBFF8E096AB} = {0FEBF602-4AFC-4E16-BF96-BA437D1D66DC}
+		{09B4272D-CA63-4646-96F5-DDD609B2E71A} = {891F98DD-81D6-479C-AD5A-11348BC7233D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D5E6B16-313B-4875-B812-13C7B346D21B}
