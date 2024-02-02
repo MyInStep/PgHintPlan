@@ -5,7 +5,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>PgHintPlan.EntityFrameworkCore</RootNamespace>
         <Description>pg_hint_plan support for EntityFrameworkCore</Description>
-        <PackageTags>pg_hint_plan; pg hint plan; efcore; entity framework;</PackageTags>
+        <PackageTags>pg_hint_plan pg hint plan PgHintPlan efcore entity framework</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 

@@ -5,7 +5,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>PgHintPlan</RootNamespace>
         <Description>pg_hint_plan support for .NET</Description>
-        <PackageTags>pg_hint_plan pg hint plan</PackageTags>
+        <PackageTags>pg_hint_plan pg hint plan PgHintPlan</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 

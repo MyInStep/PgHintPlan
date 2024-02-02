@@ -9,7 +9,6 @@ namespace PgHintPlan
         public const string Leading    = "Leading";
         public const string Memoize    = "Memoize";
         public const string NoMemoize  = "NoMemoize";
-
     }
 }
 

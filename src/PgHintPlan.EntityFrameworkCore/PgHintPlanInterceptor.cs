@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace PgHintPlan.EntityFrameworkCore
 {
+    /// <summary>
+    /// A database command interceptor that manipulates the SQL command to include pg_hint_plan hints.
+    /// </summary>
     public class PgHintPlanInterceptor : DbCommandInterceptor
     {
         public override InterceptionResult<DbDataReader> ReaderExecuting(

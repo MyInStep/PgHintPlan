@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace PgHintPlan.EntityFrameworkCore
 {
+    /// <summary>
+    /// pg_hint_plan extension methods.
+    /// </summary>
     public static class PgHintPlanExtensions
     {
         /// <summary>

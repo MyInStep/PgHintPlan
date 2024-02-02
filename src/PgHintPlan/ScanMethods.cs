@@ -15,7 +15,5 @@ namespace PgHintPlan
         public const string NoIndexScan = "NoIndexScan";
         public const string NoIndexOnlyScan = "NoIndexOnlyScan";
         public const string NoBitmapScan = "NoBitmapScan";
-
     }
 }
-

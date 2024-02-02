@@ -4,9 +4,6 @@ namespace PgHintPlan
     {
         public const string Rows   = "Rows";
         public const string Parallel = "Parallel";
-       
-
-
     }
 }
 

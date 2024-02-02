@@ -1,20 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 using FluentAssertions;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 using PgHintPlan;
 using PgHintPlan.EntityFrameworkCore;
-
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Test_PgHintPlan
 {
@@ -38,7 +32,7 @@ namespace Test_PgHintPlan
     }
 
     [PrimaryKey(nameof(Id))]
-    [Index(nameof(Id))]
+    [Index(nameof(Id), Name = "test_index")]
     public class Item
     {
         public Guid Id { get; set; }
@@ -200,7 +194,10 @@ NoHashJoin(i p)
         public void IndexScanTest()
         {
             var ctx = new ItemContext();
-            var index = ctx.Items.EntityType.GetIndexes().FirstOrDefault();
+            var index = ctx.Items.EntityType
+                .GetIndexes()
+                .Where(i => i.Name == "test_index")
+                .Single();
 
             var cmd = ctx.Items
                 .AsQueryable()
@@ -210,7 +207,7 @@ NoHashJoin(i p)
             PgHintPlanInterceptor.ManipulateCommand(cmd);
 
             cmd.CommandText.Should().StartWith($@"/*+
-IndexScan(i i_IX_Items_Id)
+IndexScan(i i_test_index)
 */".FixLineEndings());
         }
         [Fact]
@@ -227,7 +224,7 @@ IndexScan(i i_IX_Items_Id)
             PgHintPlanInterceptor.ManipulateCommand(cmd);
 
             cmd.CommandText.Should().StartWith($@"/*+
-IndexScan(i i_IX_Items_Id i_IX_Items_Id)
+IndexScan(i i_test_index i_test_index)
 */".FixLineEndings());
         }
         [Fact]
@@ -244,7 +241,7 @@ IndexScan(i i_IX_Items_Id i_IX_Items_Id)
             PgHintPlanInterceptor.ManipulateCommand(cmd);
 
             cmd.CommandText.Should().StartWith($@"/*+
-BitmapScan(i i_IX_Items_Id)
+BitmapScan(i i_test_index)
 */".FixLineEndings());
         }
         [Fact]
