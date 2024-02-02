@@ -10,7 +10,7 @@ namespace PgHintPlan
         /// <summary>
         /// Enable pg_hint_plan.
         /// </summary>
-        /// <param name="connection"></param>
+        /// <param name="connection">The <see cref="NpgsqlConnection"/> to enable pg_hint_plan on.</param>
         public static void EnablePgHintPlan(this NpgsqlConnection connection)
         {
             if (connection.State != ConnectionState.Open)
@@ -25,7 +25,7 @@ namespace PgHintPlan
         /// <summary>
         /// Enable pg_hint_plan.
         /// </summary>
-        /// <param name="connection"></param>
+        /// <param name="connection">The <see cref="NpgsqlConnection"/> to enable pg_hint_plan on.</param>
         public static async Task EnablePgHintPlanAsync(this NpgsqlConnection connection)
         {
             if (connection.State != ConnectionState.Open)
@@ -40,7 +40,7 @@ namespace PgHintPlan
         /// <summary>
         /// Enable pg_hint_plan.
         /// </summary>
-        /// <param name="dataSource"></param>
+        /// <param name="dataSource">The <see cref="NpgsqlDataSource"/> to enable pg_hint_plan on.</param>
         public static void EnablePgHintPlan(this NpgsqlDataSource dataSource)
         {
             using var command = dataSource.CreateCommand("SET pg_hint_plan.enable_hint=ON;");
@@ -50,7 +50,7 @@ namespace PgHintPlan
         /// <summary>
         /// Enable pg_hint_plan.
         /// </summary>
-        /// <param name="dataSource"></param>
+        /// <param name="dataSource">The <see cref="NpgsqlDataSource"/> to enable pg_hint_plan on.</param>
         public static async Task EnablePgHintPlanAsync(this NpgsqlDataSource dataSource)
         {
             await using var command = dataSource.CreateCommand("SET pg_hint_plan.enable_hint=ON;");
