@@ -8,7 +8,7 @@ changelog:
         - bug        
     - title: 📝 Documentation updates
       labels: 
-        - docs
+        - documentation
     - title: 🔨 Other
       labels: 
         - '*'
