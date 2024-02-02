@@ -1,6 +1,6 @@
 # PgHintPlan
 
-[![.NET](https://github.com/MyInStep/PgHintPlan/actions/workflows/publish.yml/badge.svg?branch=master)](https://github.com/MyInStep/PgHintPlan/actions/workflows/publish.yml)
+[![.NET Test](https://github.com/MyInStep/PgHintPlan/actions/workflows/test.yml/badge.svg)](https://github.com/MyInStep/PgHintPlan/actions/workflows/test.yml)
 ![NuGet Version](https://img.shields.io/nuget/v/PgHintPlan?style=flat&logo=nuget&label=NuGet)
 
 ## PgHintPlan
