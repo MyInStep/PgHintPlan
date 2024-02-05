@@ -1,7 +1,7 @@
 # PgHintPlan
 
 [![.NET Test](https://github.com/MyInStep/PgHintPlan/actions/workflows/test.yml/badge.svg)](https://github.com/MyInStep/PgHintPlan/actions/workflows/test.yml)
-![NuGet Version](https://img.shields.io/nuget/v/PgHintPlan?style=flat&logo=nuget&label=NuGet)
+[![NuGet Version](https://img.shields.io/nuget/v/PgHintPlan?style=flat&logo=nuget&label=NuGet)](https://www.nuget.org/packages/PgHintPlan)
 
 ## PgHintPlan
 Run
