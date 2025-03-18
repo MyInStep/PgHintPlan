@@ -114,7 +114,7 @@ namespace PgHintPlan.EntityFrameworkCore
                                 // get table alias
                                 var tableAlias = Regex.Match(command.CommandText, $@"""{table}""\sAS\s(\w+)").Groups[1].Value;
 
-                                hint = hint.Replace(table, tableAlias);
+                                hint = ReplaceFirst(hint, table, tableAlias);
                             }
 
                             break;
@@ -133,6 +133,15 @@ namespace PgHintPlan.EntityFrameworkCore
             sbHints.AppendLine(sbCommand.ToString());
 
             command.CommandText = sbHints.ToString();
+        }
+        private static string ReplaceFirst(string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
     }
 }

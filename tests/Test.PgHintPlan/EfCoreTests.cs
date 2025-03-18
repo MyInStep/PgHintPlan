@@ -12,9 +12,10 @@ using PgHintPlan.EntityFrameworkCore;
 
 namespace Test_PgHintPlan
 {
-    public class ItemContext : DbContext
+    internal class ItemContext : DbContext
     {
         public DbSet<Item> Items { get; set; }
+        public DbSet<Item2> Items2 { get; set; }
         public DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,6 +35,12 @@ namespace Test_PgHintPlan
     [PrimaryKey(nameof(Id))]
     [Index(nameof(Id), Name = "test_index")]
     public class Item
+    {
+        public Guid Id { get; set; }
+    }
+
+    [PrimaryKey(nameof(Id))]
+    public class Item2
     {
         public Guid Id { get; set; }
     }
@@ -62,6 +69,7 @@ namespace Test_PgHintPlan
 Set(enable_hashagg on)
 */".FixLineEndings());
         }
+
         [Fact]
         public void InterceptorSetFalseTest()
         {
@@ -287,6 +295,7 @@ Rows(i p +10)
 Rows(p i *100000000)
 */".FixLineEndings());
         }
+
         [Fact]
         public void ParallelTest()
         {
@@ -301,6 +310,28 @@ Rows(p i *100000000)
 
             cmd.CommandText.Should().StartWith($@"/*+
 Parallel(i 5 soft)
+*/".FixLineEndings());
+        }
+
+        [Fact]
+        public void NoNestLoopTest()
+        {
+            var ctx = new ItemContext();
+            var cmd = ctx.Items
+                .Join(ctx.Items2,
+                (i1) => i1.Id,
+                (i2) => i2.Id,
+                (i1, i2) => new
+                {
+                    Id1 = i1.Id,
+                    Id2 = i2.Id
+                })
+                .NoNestLoop(ctx.Items.EntityType, ctx.Items2.EntityType)
+                .CreateDbCommand();
+            PgHintPlanInterceptor.ManipulateCommand(cmd);
+
+            cmd.CommandText.Should().StartWith($@"/*+
+NoNestLoop(i i0)
 */".FixLineEndings());
         }
     }

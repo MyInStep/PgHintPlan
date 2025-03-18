@@ -292,7 +292,7 @@ namespace PgHintPlan.EntityFrameworkCore
 
             args.Add(entityType.GetTableName());
 
-            foreach(var i in indexes)
+            foreach (var i in indexes)
             {
                 args.Add($"{entityType.GetTableName()}_{i.GetDatabaseName()}");
 
@@ -366,7 +366,7 @@ namespace PgHintPlan.EntityFrameworkCore
         public static IQueryable<T> IndexScanRegexp<T>(this IQueryable<T> query, IEntityType entityType, string regex)
             where T : class
         {
-            return query.TagWith(TagHelper.GenerateTag(ScanMethods.IndexScanRegexp, entityType.GetTableName() , regex));
+            return query.TagWith(TagHelper.GenerateTag(ScanMethods.IndexScanRegexp, entityType.GetTableName(), regex));
         }
 
         /// <summary>
@@ -545,7 +545,7 @@ namespace PgHintPlan.EntityFrameworkCore
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public static IQueryable<T> Parallel<T>(this IQueryable<T> query, IEntityType entityType, int value, EnforcementStrength strength)
-        where T : class
+            where T : class
         {
             string strengthString = strength switch
             {
@@ -556,6 +556,5 @@ namespace PgHintPlan.EntityFrameworkCore
 
             return query.TagWith(TagHelper.GenerateTag(MiscMethods.Parallel, entityType.GetTableName(), value.ToString(), strengthString));
         }
-
     }
 }
