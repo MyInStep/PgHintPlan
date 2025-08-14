@@ -37,6 +37,8 @@ namespace Test_PgHintPlan
     public class Item
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime Created { get; set; }
     }
 
     [PrimaryKey(nameof(Id))]
@@ -328,6 +330,31 @@ Parallel(i 5 soft)
                 })
                 .NoNestLoop(ctx.Items.EntityType, ctx.Items2.EntityType)
                 .CreateDbCommand();
+            PgHintPlanInterceptor.ManipulateCommand(cmd);
+
+            cmd.CommandText.Should().StartWith($@"/*+
+NoNestLoop(i i0)
+*/".FixLineEndings());
+        }
+
+        [Fact]
+        public void WhereTest()
+        {
+            var ctx = new ItemContext();
+            var cmd = ctx.Items
+                .Join(ctx.Items2,
+                (i1) => i1.Id,
+                (i2) => i2.Id,
+                (i1, i2) => new
+                {
+                    I1 = i1,
+                    I2 = i2
+                })
+                .Where(i => i.I1.Id == Guid.Empty)
+                .Where(i => i.I1.Created > DateTime.MinValue)
+                .NoNestLoop(ctx.Items.EntityType, ctx.Items2.EntityType)
+                .CreateDbCommand();
+
             PgHintPlanInterceptor.ManipulateCommand(cmd);
 
             cmd.CommandText.Should().StartWith($@"/*+
