@@ -7,11 +7,13 @@
         <Description>pg_hint_plan support for EntityFrameworkCore</Description>
         <PackageTags>pg_hint_plan pg hint plan PgHintPlan efcore entity framework</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\PgHintPlan\PgHintPlan.csproj" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.*" />
+        <PackageReference Include="Npgsql" Version="8.0.*" PrivateAssets="all" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.*" PrivateAssets="all" />
 	</ItemGroup>
 
     <ItemGroup>
