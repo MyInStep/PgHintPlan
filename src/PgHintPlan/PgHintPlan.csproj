@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
         <OutputType>Library</OutputType>
         <RootNamespace>PgHintPlan</RootNamespace>
         <Description>pg_hint_plan support for .NET</Description>
         <PackageTags>pg_hint_plan pg hint plan PgHintPlan</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Npgsql" Version="8.0.*" PrivateAssets="all" />
+		<PackageReference Include="Npgsql" />
 	</ItemGroup>
 
     <ItemGroup>

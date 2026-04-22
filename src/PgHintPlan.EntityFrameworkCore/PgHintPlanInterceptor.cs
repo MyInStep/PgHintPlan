@@ -38,10 +38,11 @@ namespace PgHintPlan.EntityFrameworkCore
 
         internal static void ManipulateCommand(DbCommand command)
         {
+            var hasHints  = false;
             var sbHints   = new StringBuilder();
             var sbCommand = new StringBuilder();
 
-            sbHints.AppendLine("/*+");
+            sbHints.AppendLine(Constants.HintPrefix);
 
             foreach (var line in command.CommandText.Split(command.CommandText.Contains("\r\n") ? "\r\n" : "\n", StringSplitOptions.TrimEntries))
             {
@@ -121,6 +122,7 @@ namespace PgHintPlan.EntityFrameworkCore
                     }
 
                     sbHints.AppendLine(hint);
+                    hasHints = true;
                 }
                 else
                 {
@@ -128,11 +130,13 @@ namespace PgHintPlan.EntityFrameworkCore
                 }
             }
 
-         
-            sbHints.AppendLine("*/");
-            sbHints.AppendLine(sbCommand.ToString());
+            if (hasHints)
+            {
+                sbHints.AppendLine(Constants.HintSuffix);
+                sbHints.AppendLine(sbCommand.ToString());
 
-            command.CommandText = sbHints.ToString();
+                command.CommandText = sbHints.ToString();
+            }
         }
         private static string ReplaceFirst(string text, string search, string replace)
         {

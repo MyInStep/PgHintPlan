@@ -57,6 +57,19 @@ namespace Test_PgHintPlan
     public class EfCoreTests
     {
         [Fact]
+        public void TestNoHints()
+        {
+            var ctx = new ItemContext();
+            var cmd = ctx.Items
+                .AsQueryable()
+                .CreateDbCommand();
+
+            cmd.CommandText.Should().NotBeNullOrEmpty();
+            cmd.CommandText.Should().NotStartWith(Constants.HintPrefix);
+            cmd.CommandText.Should().NotContain(Constants.HintSuffix);
+        }
+
+        [Fact]
         public void InterceptorTest()
         {
             var ctx = new ItemContext();

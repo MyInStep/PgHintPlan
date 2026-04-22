@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+        <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NpgsqlVersion>[8.*,9.0)</NpgsqlVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+        <PackageVersion Include="FluentAssertions" Version="8.6.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageVersion Include="Npgsql" Version="$(NpgsqlVersion)" />
+        <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+        <PackageVersion Include="xunit" Version="2.9.3" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.3" />
+    </ItemGroup>
+</Project>
